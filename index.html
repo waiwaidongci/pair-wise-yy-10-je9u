@@ -15,42 +15,78 @@
       --red: #a43f42;
       --amber: #aa7a24;
       --violet: #665c93;
+      --blue: #385f86;
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     header { padding: 22px 28px 16px; border-bottom: 1px solid var(--line); background: #fbfdfb; display: flex; justify-content: space-between; gap: 18px; align-items: end; }
     h1 { margin: 0; font-size: 26px; letter-spacing: 0; }
+    h2, h3 { margin-top: 0; }
     .sub, .meta { color: var(--muted); font-size: 13px; line-height: 1.5; }
     main { padding: 20px 28px 34px; display: grid; gap: 18px; }
     button, input, select, textarea { font: inherit; border-radius: 6px; }
     input, select, textarea { width: 100%; border: 1px solid var(--line); padding: 9px 10px; background: #fff; color: var(--ink); }
-    textarea { min-height: 68px; resize: vertical; }
+    textarea { min-height: 64px; resize: vertical; }
     button { border: 0; background: var(--teal); color: #fff; padding: 9px 11px; cursor: pointer; min-height: 38px; }
+    button:hover:not(:disabled) { filter: brightness(0.96); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
     button.secondary { background: #5d6764; }
     button.warn { background: var(--amber); }
     button.danger { background: var(--red); }
     button.violet { background: var(--violet); }
+    button.small { min-height: 30px; padding: 5px 9px; font-size: 12px; }
     label { display: grid; gap: 5px; font-size: 12px; color: var(--muted); }
     .top { display: grid; grid-template-columns: 360px 1fr; gap: 18px; align-items: start; }
+    .operations { display: grid; grid-template-columns: 320px minmax(340px, 1fr) minmax(380px, 1fr); gap: 18px; align-items: start; }
+    .stack { display: grid; gap: 18px; }
     .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
     .panel h2 { margin: 0 0 12px; font-size: 17px; }
     form { display: grid; gap: 10px; }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .toolbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+    .toolbar { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin-bottom: 12px; }
     .lists { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
     .mini { border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: #fbfdfb; min-height: 118px; }
     .mini h3 { margin: 0 0 8px; font-size: 14px; }
-    .item { border: 1px solid #d7e0dc; border-left: 4px solid var(--teal); background: #fff; border-radius: 7px; padding: 9px; margin-bottom: 8px; cursor: pointer; }
-    .item.overdue { border-left-color: var(--red); }
-    .board { display: grid; grid-template-columns: repeat(4, minmax(185px, 1fr)); gap: 12px; overflow-x: auto; }
+    .scroll { max-height: 455px; overflow: auto; display: grid; gap: 8px; align-content: start; }
+    .item, .record { border: 1px solid #d7e0dc; border-left: 4px solid var(--teal); background: #fff; border-radius: 7px; padding: 9px; margin-bottom: 8px; cursor: pointer; }
+    .item.overdue, .record.overdue { border-left-color: var(--red); }
+    .item.in-batch { border-left-color: var(--amber); }
+    .item.locked { border-left-color: var(--violet); }
+    .board { display: grid; grid-template-columns: repeat(5, minmax(185px, 1fr)); gap: 12px; overflow-x: auto; }
     .col { background: #f9fbf9; border: 1px solid var(--line); border-radius: 8px; padding: 10px; min-height: 320px; }
     .col h3 { display: flex; justify-content: space-between; margin: 0 0 10px; font-size: 15px; }
     .actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
     .actions button { flex: 1; min-width: 82px; font-size: 12px; padding: 7px 8px; }
+    .badge { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 11px; margin-right: 4px; color: #fff; background: var(--muted); }
+    .badge.active { background: var(--amber); }
+    .badge.done { background: var(--violet); }
+    .badge.returned { background: #5d6764; }
+    .badge.ready { background: var(--teal); }
+    .batch-row { border: 1px solid var(--line); border-left: 4px solid var(--amber); border-radius: 8px; padding: 10px; background: #fff; display: grid; gap: 7px; }
+    .batch-row.done { border-left-color: var(--violet); }
+    .batch-row.returned { border-left-color: #5d6764; }
+    .batch-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .check-card { display: grid; grid-template-columns: auto 1fr; gap: 9px; border: 1px solid var(--line); border-radius: 7px; padding: 9px; background: #fff; cursor: pointer; color: var(--ink); font-size: 13px; }
+    .check-card input { width: auto; }
+    .check-card.blocked, .check-card.held { background: #fbf3f3; border-color: #ddc0c1; cursor: not-allowed; }
+    .reasons { color: var(--red); font-size: 12px; line-height: 1.5; margin-top: 4px; }
+    .message { min-height: 20px; font-size: 13px; line-height: 1.5; }
+    .message.error { color: var(--red); }
+    .message.ok { color: var(--teal); }
+    .message.info { color: var(--blue); }
+    .customer-card { border: 1px solid var(--line); border-radius: 7px; padding: 9px; background: #fbfdfb; }
+    .timeline { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .detail-list { display: grid; gap: 6px; }
+    .detail-list .row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; border-bottom: 1px dashed var(--line); padding-bottom: 5px; }
     dialog { border: 1px solid var(--line); border-radius: 8px; width: min(560px, calc(100vw - 24px)); padding: 0; }
+    dialog.wide { width: min(780px, calc(100vw - 24px)); }
     dialog::backdrop { background: rgba(0, 0, 0, 0.3); }
     .dialog-body { padding: 16px; display: grid; gap: 10px; }
     .empty { color: var(--muted); font-size: 13px; padding: 8px 0; }
+    @media (max-width: 1280px) {
+      .operations { grid-template-columns: 1fr; }
+      .board { grid-template-columns: repeat(5, minmax(185px, 1fr)); }
+    }
     @media (max-width: 980px) {
       header { display: block; padding: 18px; }
       main { padding: 16px; }
@@ -63,7 +99,7 @@
   <header>
     <div>
       <h1>小型漆线雕工坊管理</h1>
-      <div class="sub">贴线、阴干、上金粉、待交付的作品流转与缺陷追踪</div>
+      <div class="sub">贴线、阴干、上金粉、客户装匣与交付退回的全流程追踪</div>
     </div>
     <button id="exportBtn" class="secondary">导出 JSON</button>
   </header>
@@ -73,21 +109,26 @@
       <form id="workForm" class="panel">
         <h2>新增作品</h2>
         <div class="grid2">
+          <label>客户<select name="customerId" required></select></label>
           <label>胎体材质<input name="base" required placeholder="脱胎漆器"></label>
-          <label>纹样主题<input name="theme" required placeholder="缠枝莲"></label>
         </div>
         <div class="grid2">
+          <label>纹样主题<input name="theme" required placeholder="缠枝莲"></label>
           <label>线条粗细<select name="line"><option>细线</option><option>中线</option><option>粗线</option><option>混合线</option></select></label>
+        </div>
+        <div class="grid2">
           <label>贴线进度<input name="progress" type="number" min="0" max="100" value="25"></label>
+          <label>金粉处理状态<select name="gold"><option>未处理</option><option>试扫粉</option><option>已上金粉</option></select></label>
         </div>
         <div class="grid2">
           <label>阴干日期<input name="dryDate" type="date" required></label>
           <label>交付日期<input name="delivery" type="date" required></label>
         </div>
-        <div class="grid2">
-          <label>金粉处理状态<select name="gold"><option>未处理</option><option>试扫粉</option><option>已上金粉</option></select></label>
-          <label>当前状态<select name="status"><option>贴线中</option><option>待阴干</option><option>上金粉</option><option>待交付</option></select></label>
-        </div>
+        <label>当前状态
+          <select name="status">
+            <option>贴线中</option><option>待阴干</option><option>上金粉</option><option selected>待交付</option>
+          </select>
+        </label>
         <label>缺陷位置<input name="defect" placeholder="右下花瓣断线"></label>
         <label>备注<textarea name="note" placeholder="客户偏好、修补记录"></textarea></label>
         <button type="submit">加入工坊</button>
@@ -111,11 +152,57 @@
         </div>
         <div class="toolbar">
           <label>主题筛选<input id="themeFilter" placeholder="输入纹样"></label>
+          <label>客户筛选<select id="customerFilter"></select></label>
           <label>状态筛选<select id="statusFilter"></select></label>
           <label>交付排序<select id="sortMode"><option value="delivery">按交付日期</option><option value="dry">按阴干日期</option></select></label>
           <button id="clearFilters" class="secondary">清空</button>
         </div>
         <div id="board" class="board"></div>
+      </section>
+    </section>
+
+    <section class="operations">
+      <div class="stack">
+        <form id="customerForm" class="panel">
+          <h2>客户建档</h2>
+          <label>客户名称<input name="name" required placeholder="林女士"></label>
+          <label>联系方式<input name="contact" placeholder="电话 / 微信"></label>
+          <label>建档备注<textarea name="note" placeholder="取件偏好、包装要求"></textarea></label>
+          <button type="submit">保存客户</button>
+        </form>
+        <section class="panel">
+          <h2>客户名录</h2>
+          <div id="customerList" class="scroll"></div>
+        </section>
+      </div>
+
+      <form id="batchForm" class="panel">
+        <h2>交付批次装匣</h2>
+        <div class="grid2">
+          <label>交接客户<select name="customerId" required></select></label>
+          <label>交接日期<input name="handoverDate" type="date" required></label>
+        </div>
+        <div id="rosterSummary" class="meta"></div>
+        <div id="roster" class="scroll"></div>
+        <div id="batchMessage" class="message"></div>
+        <button type="submit">建立进行中批次</button>
+      </form>
+
+      <section class="panel">
+        <h2>交付批次</h2>
+        <div class="toolbar">
+          <label>批次状态
+            <select id="batchStatusFilter">
+              <option value="">全部状态</option>
+              <option>进行中</option>
+              <option>已交接</option>
+              <option>已退回</option>
+            </select>
+          </label>
+          <label>客户筛选<select id="batchCustomerFilter"></select></label>
+          <button id="clearBatchFilters" class="secondary">清空</button>
+        </div>
+        <div id="batchList" class="scroll"></div>
       </section>
     </section>
   </main>
@@ -134,156 +221,910 @@
     </div>
   </dialog>
 
+  <dialog id="batchDialog" class="wide">
+    <div class="dialog-body">
+      <h2 id="batchDetailTitle">批次详情</h2>
+      <div id="batchDetailContent" class="meta"></div>
+      <div class="actions">
+        <button id="batchDialogAction"></button>
+        <button id="closeBatchDialog" class="secondary">关闭</button>
+      </div>
+    </div>
+  </dialog>
+
   <script>
-    const statuses = ["贴线中", "待阴干", "上金粉", "待交付"];
-    const storageKey = "zfl42Works";
-    const today = new Date().toISOString().slice(0, 10);
-    const seed = [
-      { id: crypto.randomUUID(), base: "木胎香盒", theme: "海水江崖", line: "细线", progress: 70, dryDate: today, gold: "未处理", defect: "", delivery: "2026-06-26", status: "待阴干", note: "边线需保持低浮雕感", logs: ["创建作品"] },
-      { id: crypto.randomUUID(), base: "脱胎盘", theme: "折枝梅", line: "混合线", progress: 95, dryDate: "2026-06-20", gold: "试扫粉", defect: "左侧枝干翘线", delivery: "2026-06-23", status: "上金粉", note: "客户要求金粉偏暗", logs: ["创建作品", "记录翘线"] },
-      { id: crypto.randomUUID(), base: "竹胎笔筒", theme: "云雷纹", line: "中线", progress: 40, dryDate: "2026-06-24", gold: "未处理", defect: "", delivery: "2026-06-30", status: "贴线中", note: "", logs: ["创建作品"] }
-    ];
-    let works = JSON.parse(localStorage.getItem(storageKey) || "null") || seed;
-    let activeId = null;
+    "use strict";
 
-    const form = document.querySelector("#workForm");
-    const board = document.querySelector("#board");
-    const statusFilter = document.querySelector("#statusFilter");
-    const themeFilter = document.querySelector("#themeFilter");
-    const sortMode = document.querySelector("#sortMode");
-    const dialog = document.querySelector("#detailDialog");
+    /* =========================================================
+       数据层：localStorage 持久化、旧数据迁移和数据规范化
+       ========================================================= */
+    const STORAGE_KEY = "zfl42Data";
+    const OLD_STORAGE_KEY = "zfl42Works";
+    const TODAY = new Date().toISOString().slice(0, 10);
+    const READY_STATUS = "待交付";
+    const HANDED_OVER_STATUS = "已交接";
+    const PRODUCTION_STATUSES = ["贴线中", "待阴干", "上金粉", "待交付"];
+    const WORK_STATUSES = [...PRODUCTION_STATUSES, HANDED_OVER_STATUS];
+    const BATCH_ACTIVE = "进行中";
+    const BATCH_DONE = "已交接";
+    const BATCH_RETURNED = "已退回";
 
-    form.dryDate.value = today;
-    form.delivery.value = new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10);
-    statusFilter.innerHTML = `<option value="">全部状态</option>` + statuses.map(s => `<option>${s}</option>`).join("");
+    const uid = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
+    const nowText = () => new Date().toLocaleString();
+    const $ = (selector, root = document) => root.querySelector(selector);
 
-    function save() {
-      localStorage.setItem(storageKey, JSON.stringify(works));
+    function dateOffset(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
     }
 
-    function filtered() {
-      return works
-        .filter(w => !statusFilter.value || w.status === statusFilter.value)
-        .filter(w => !themeFilter.value || w.theme.includes(themeFilter.value.trim()))
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[char]));
+    }
+
+    function seedData() {
+      const lin = { id: "customer-lin", name: "林雅集", contact: "微信：linyaji", note: "偏好哑光金粉", createdAt: nowText() };
+      const chen = { id: "customer-chen", name: "陈默", contact: "13800000000", note: "礼盒需防潮", createdAt: nowText() };
+      return {
+        version: 2,
+        customers: [lin, chen],
+        works: [
+          {
+            id: "work-ready", customerId: lin.id, base: "木胎香盒", theme: "如意云纹", line: "细线",
+            progress: 100, dryDate: dateOffset(-1), gold: "已上金粉", defect: "", delivery: TODAY,
+            status: READY_STATUS, note: "匣内放防潮纸", logs: [`${nowText()} 创建作品`, `${nowText()} 完成待交付检查`]
+          },
+          {
+            id: "work-dry-today", customerId: lin.id, base: "脱胎盘", theme: "海水江崖", line: "中线",
+            progress: 70, dryDate: TODAY, gold: "未处理", defect: "", delivery: dateOffset(5),
+            status: "待阴干", note: "边线需保持低浮雕感", logs: [`${nowText()} 创建作品`]
+          },
+          {
+            id: "work-defect", customerId: chen.id, base: "脱胎盘", theme: "折枝梅", line: "混合线",
+            progress: 95, dryDate: dateOffset(-2), gold: "试扫粉", defect: "左侧枝干翘线",
+            delivery: dateOffset(2), status: "上金粉", note: "客户要求金粉偏暗",
+            logs: [`${nowText()} 创建作品`, `${nowText()} 记录翘线`]
+          },
+          {
+            id: "work-wet", customerId: chen.id, base: "竹胎笔筒", theme: "云雷纹", line: "中线",
+            progress: 40, dryDate: dateOffset(1), gold: "未处理", defect: "", delivery: dateOffset(6),
+            status: "贴线中", note: "", logs: [`${nowText()} 创建作品`]
+          }
+        ],
+        batches: []
+      };
+    }
+
+    function normalizeCustomer(customer = {}) {
+      return {
+        id: customer.id || uid(),
+        name: customer.name || "未命名客户",
+        contact: customer.contact || "",
+        note: customer.note || "",
+        createdAt: customer.createdAt || nowText()
+      };
+    }
+
+    function normalizeWork(work = {}) {
+      return {
+        id: work.id || uid(),
+        customerId: work.customerId ?? null,
+        base: work.base || "",
+        theme: work.theme || "",
+        line: work.line || "中线",
+        progress: Number(work.progress ?? 0),
+        dryDate: work.dryDate || TODAY,
+        gold: work.gold || "未处理",
+        defect: work.defect || "",
+        delivery: work.delivery || TODAY,
+        status: WORK_STATUSES.includes(work.status) ? work.status : "贴线中",
+        note: work.note || "",
+        logs: Array.isArray(work.logs) ? work.logs : []
+      };
+    }
+
+    function normalizeBatch(batch = {}) {
+      return {
+        id: batch.id || uid(),
+        code: batch.code || `PF${TODAY.replace(/-/g, "")}-OLD`,
+        customerId: batch.customerId || null,
+        handoverDate: batch.handoverDate || TODAY,
+        workIds: Array.isArray(batch.workIds) ? batch.workIds : [],
+        status: [BATCH_ACTIVE, BATCH_DONE, BATCH_RETURNED].includes(batch.status) ? batch.status : BATCH_ACTIVE,
+        createdAt: batch.createdAt || nowText(),
+        handedOverAt: batch.handedOverAt || null,
+        returnedAt: batch.returnedAt || null,
+        history: Array.isArray(batch.history) ? batch.history : []
+      };
+    }
+
+    const Store = {
+      load() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            version: 2,
+            customers: (parsed.customers || []).map(normalizeCustomer),
+            works: (parsed.works || []).map(normalizeWork),
+            batches: (parsed.batches || []).map(normalizeBatch)
+          };
+        }
+
+        const oldWorks = JSON.parse(localStorage.getItem(OLD_STORAGE_KEY) || "null");
+        if (oldWorks) {
+          let legacyCustomer = null;
+          const works = oldWorks.map(normalizeWork).map(work => {
+            if (work.customerId) return work;
+            legacyCustomer = legacyCustomer || {
+              id: "customer-legacy",
+              name: "历史未建档客户",
+              contact: "",
+              note: "由旧版作品数据迁移生成，可在装匣时继续使用。",
+              createdAt: nowText()
+            };
+            return { ...work, customerId: legacyCustomer.id };
+          });
+          return { version: 2, customers: legacyCustomer ? [legacyCustomer] : [], works, batches: [] };
+        }
+
+        return seedData();
+      },
+      save(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.removeItem(OLD_STORAGE_KEY);
+      }
+    };
+
+    let state = Store.load();
+    Store.save(state);
+
+    /* =========================================================
+       规则层：占用、装匣卡点、批次交接/退回均在这里判定
+       ========================================================= */
+    const getWork = id => state.works.find(work => work.id === id);
+    const getCustomer = id => state.customers.find(customer => customer.id === id);
+    const customerName = id => getCustomer(id)?.name || "未建档客户";
+
+    function activeHolder(workId, batches, excludeBatchId = null) {
+      return batches.find(batch =>
+        batch.id !== excludeBatchId &&
+        batch.status !== BATCH_RETURNED &&
+        batch.workIds.includes(workId)
+      );
+    }
+
+    function batchLabel(batch) {
+      return `${batch.code}（${customerName(batch.customerId)} · ${batch.handoverDate}）`;
+    }
+
+    const Rules = {
+      activeHolder,
+      batchLabel,
+
+      workBlockers(work, batches, options = {}) {
+        const blockers = [];
+        const holder = activeHolder(work.id, batches, options.excludeBatchId || null);
+        if (holder) {
+          blockers.push(holder.status === BATCH_DONE
+            ? `已随批次 ${batchLabel(holder)} 交接锁定，退回前不可重复装匣`
+            : `已被未退回批次 ${batchLabel(holder)} 占用`);
+          return blockers;
+        }
+        if (work.status !== READY_STATUS) blockers.push(`当前为“${work.status}”，需先到“${READY_STATUS}”`);
+        if (work.dryDate > TODAY) blockers.push(`阴干日期 ${work.dryDate} 未到`);
+        if (work.defect.trim()) blockers.push(`存在缺陷：${work.defect}`);
+        return blockers;
+      },
+
+      matchingWorks(customerId, handoverDate) {
+        return state.works
+          .filter(work => work.customerId === customerId && work.delivery <= handoverDate)
+          .sort((a, b) => a.delivery.localeCompare(b.delivery) || a.theme.localeCompare(b.theme));
+      },
+
+      laterWorks(customerId, handoverDate) {
+        return state.works
+          .filter(work => work.customerId === customerId && work.delivery > handoverDate)
+          .sort((a, b) => a.delivery.localeCompare(b.delivery));
+      },
+
+      batchBlockers(batch, data) {
+        const problems = [];
+        const customer = data.customers.find(item => item.id === batch.customerId);
+        if (!customer) problems.push({ work: null, reason: "批次客户档案已不存在" });
+        batch.workIds.forEach(id => {
+          const work = data.works.find(item => item.id === id);
+          if (!work) {
+            problems.push({ work: null, reason: "作品档案已不存在" });
+            return;
+          }
+          if (work.customerId !== batch.customerId) problems.push({ work, reason: "作品客户与批次客户不一致" });
+          if (work.delivery > batch.handoverDate) problems.push({ work, reason: "作品交付日期晚于批次交接日期" });
+          this.workBlockers(work, data.batches, { excludeBatchId: batch.id })
+            .forEach(reason => problems.push({ work, reason }));
+        });
+        return problems;
+      }
+    };
+
+    function nextBatchCode(data, handoverDate) {
+      const prefix = `PF${handoverDate.replace(/-/g, "")}`;
+      const count = data.batches.filter(batch => batch.code.startsWith(prefix)).length + 1;
+      return `${prefix}-${String(count).padStart(2, "0")}`;
+    }
+
+    const BatchService = {
+      create({ customerId, handoverDate, workIds }) {
+        const data = Store.load();
+        const customer = data.customers.find(item => item.id === customerId);
+        if (!customer) return { ok: false, message: "客户档案不存在，请重新选择客户。" };
+        if (!handoverDate) return { ok: false, message: "请选择交接日期。" };
+        if (!workIds.length) return { ok: false, message: "请至少选择一件作品。" };
+
+        const works = workIds.map(id => data.works.find(work => work.id === id));
+        if (works.some(work => !work)) return { ok: false, message: "部分作品档案已不存在，请重算名单。" };
+
+        const mismatched = [];
+        works.forEach(work => {
+          if (work.customerId !== customerId) mismatched.push(`${work.theme}：不属于该客户`);
+          if (work.delivery > handoverDate) mismatched.push(`${work.theme}：交付日期晚于交接日期`);
+        });
+        if (mismatched.length) {
+          return { ok: false, message: "名单已变化，请重算后再提交：<br>" + mismatched.map(esc).join("<br>") };
+        }
+
+        const held = [];
+        works.forEach(work => {
+          const holder = activeHolder(work.id, data.batches);
+          if (holder) held.push({ work, holder });
+        });
+        if (held.length) {
+          return {
+            ok: false,
+            kind: "conflict",
+            message: "无法建立批次，后到窗口必须先处理占用：<br>" + held.map(({ work, holder }) =>
+              `《${esc(work.theme)}》已被${holder.status === BATCH_DONE ? "已交接" : "进行中"}批次 ${esc(batchLabel(holder))} 占用，退回前不能重复装匣。`
+            ).join("<br>")
+          };
+        }
+
+        const invalid = [];
+        works.forEach(work => {
+          Rules.workBlockers(work, data.batches).forEach(reason => invalid.push({ work, reason }));
+        });
+        if (invalid.length) {
+          return {
+            ok: false,
+            message: "以下作品存在装匣卡点：<br>" + invalid.map(({ work, reason }) =>
+              `《${esc(work.theme)}》：${esc(reason)}`
+            ).join("<br>")
+          };
+        }
+
+        const timestamp = nowText();
+        const batch = {
+          id: uid(),
+          code: nextBatchCode(data, handoverDate),
+          customerId,
+          handoverDate,
+          workIds,
+          status: BATCH_ACTIVE,
+          createdAt: timestamp,
+          handedOverAt: null,
+          returnedAt: null,
+          history: [`${timestamp} 建立进行中装匣批次`]
+        };
+        works.forEach(work => work.logs.push(`${timestamp} 加入批次 ${batch.code}`));
+        data.batches.unshift(batch);
+        Store.save(data);
+        return { ok: true, batch };
+      },
+
+      handover(batchId) {
+        const data = Store.load();
+        const batch = data.batches.find(item => item.id === batchId);
+        if (!batch) return { ok: false, message: "批次不存在。" };
+        if (batch.status !== BATCH_ACTIVE) return { ok: false, message: "只有进行中的批次可以办理交接。" };
+
+        const problems = Rules.batchBlockers(batch, data);
+        if (problems.length) {
+          return {
+            ok: false,
+            message: "不能交接：<br>" + problems.map(({ work, reason }) =>
+              work ? `《${esc(work.theme)}》：${esc(reason)}` : esc(reason)
+            ).join("<br>")
+          };
+        }
+
+        const timestamp = nowText();
+        batch.status = BATCH_DONE;
+        batch.handedOverAt = timestamp;
+        batch.history.push(`${timestamp} 完成交接，作品与历史锁定`);
+        batch.workIds.forEach(id => {
+          const work = data.works.find(item => item.id === id);
+          work.status = HANDED_OVER_STATUS;
+          work.logs.push(`${timestamp} 随批次 ${batch.code} 交接，作品与历史锁定`);
+        });
+        Store.save(data);
+        return { ok: true, batch };
+      },
+
+      returnBatch(batchId) {
+        const data = Store.load();
+        const batch = data.batches.find(item => item.id === batchId);
+        if (!batch) return { ok: false, message: "批次不存在。" };
+        if (batch.status !== BATCH_DONE) return { ok: false, message: "只有已交接批次可以退回放行。" };
+
+        const timestamp = nowText();
+        batch.status = BATCH_RETURNED;
+        batch.returnedAt = timestamp;
+        batch.history.push(`${timestamp} 客户退回，仅解除占用并放回待交付，原批次保留`);
+        batch.workIds.forEach(id => {
+          const work = data.works.find(item => item.id === id);
+          if (!work) return;
+          work.status = READY_STATUS;
+          work.logs.push(`${timestamp} 批次 ${batch.code} 退回，放回待交付；原批次记录保留`);
+        });
+        Store.save(data);
+        return { ok: true, batch };
+      }
+    };
+
+    const WorkService = {
+      create(formData) {
+        const data = Store.load();
+        if (!data.customers.some(customer => customer.id === formData.customerId)) {
+          return { ok: false, message: "请先选择客户档案。" };
+        }
+        const timestamp = nowText();
+        const work = normalizeWork({
+          ...formData,
+          id: uid(),
+          progress: Number(formData.progress),
+          logs: [`${timestamp} 创建作品`]
+        });
+        data.works.unshift(work);
+        Store.save(data);
+        return { ok: true, work };
+      },
+
+      updateStatus(id, nextStatus) {
+        if (!PRODUCTION_STATUSES.includes(nextStatus)) return { ok: false, message: "已交接状态只能由批次交接产生。" };
+        const data = Store.load();
+        const work = data.works.find(item => item.id === id);
+        if (!work) return { ok: false, message: "作品不存在。" };
+        const holder = activeHolder(id, data.batches);
+        if (holder?.status === BATCH_DONE) {
+          return { ok: false, message: `作品已随批次 ${holder.code} 交接锁定，退回后才能修改。` };
+        }
+        work.status = nextStatus;
+        if (nextStatus === "待阴干") work.dryDate = TODAY;
+        if (nextStatus === "上金粉") work.gold = "已上金粉";
+        if (nextStatus === READY_STATUS) work.progress = 100;
+        work.logs.push(`${nowText()} 更新为 ${nextStatus}`);
+        Store.save(data);
+        return { ok: true };
+      },
+
+      recordDefect(id, text) {
+        const value = text.trim();
+        if (!value) return { ok: false, message: "请输入缺陷位置。" };
+        const data = Store.load();
+        const work = data.works.find(item => item.id === id);
+        if (!work) return { ok: false, message: "作品不存在。" };
+        const holder = activeHolder(id, data.batches);
+        if (holder?.status === BATCH_DONE) {
+          return { ok: false, message: `作品已随批次 ${holder.code} 交接锁定，不能补记缺陷。` };
+        }
+        work.defect = work.defect ? `${work.defect}; ${value}` : value;
+        work.logs.push(`${nowText()} 缺陷：${value}`);
+        Store.save(data);
+        return { ok: true };
+      }
+    };
+
+    /* =========================================================
+       页面层：表单、名单、看板、详情、筛选和事件
+       ========================================================= */
+    const workForm = $("#workForm");
+    const customerForm = $("#customerForm");
+    const batchForm = $("#batchForm");
+    const board = $("#board");
+    const themeFilter = $("#themeFilter");
+    const customerFilter = $("#customerFilter");
+    const statusFilter = $("#statusFilter");
+    const sortMode = $("#sortMode");
+    const detailDialog = $("#detailDialog");
+    const batchDialog = $("#batchDialog");
+    const rosterEl = $("#roster");
+    const rosterSummary = $("#rosterSummary");
+    const batchMessage = $("#batchMessage");
+
+    let activeWorkId = null;
+    let activeBatchId = null;
+    let selectedWorkIds = new Set();
+
+    workForm.dryDate.value = TODAY;
+    workForm.delivery.value = dateOffset(5);
+    batchForm.handoverDate.value = TODAY;
+    statusFilter.innerHTML = `<option value="">全部状态</option>` +
+      WORK_STATUSES.map(status => `<option>${status}</option>`).join("");
+
+    function customerOptions(includeAll = false) {
+      const blank = includeAll ? `<option value="">全部客户</option>` : `<option value="">请选择客户</option>`;
+      return blank + state.customers.map(customer =>
+        `<option value="${customer.id}">${esc(customer.name)}</option>`
+      ).join("");
+    }
+
+    function syncSelects() {
+      const workCustomer = workForm.customerId.value || state.customers[0]?.id || "";
+      const batchCustomer = batchForm.customerId.value || state.customers[0]?.id || "";
+      const filterCustomer = customerFilter.value;
+      const batchFilterCustomer = $("#batchCustomerFilter").value;
+
+      workForm.customerId.innerHTML = customerOptions(false);
+      batchForm.customerId.innerHTML = customerOptions(false);
+      customerFilter.innerHTML = customerOptions(true);
+      $("#batchCustomerFilter").innerHTML = customerOptions(true);
+
+      workForm.customerId.value = workCustomer;
+      batchForm.customerId.value = batchCustomer;
+      customerFilter.value = filterCustomer;
+      $("#batchCustomerFilter").value = batchFilterCustomer;
+    }
+
+    function showBatchMessage(text = "", type = "") {
+      batchMessage.innerHTML = text;
+      batchMessage.className = `message ${type}`;
+    }
+
+    function renderCustomers() {
+      const list = $("#customerList");
+      if (!state.customers.length) {
+        list.innerHTML = `<div class="empty">暂无客户，请先建档。</div>`;
+        return;
+      }
+      list.innerHTML = state.customers.map(customer => {
+        const count = state.works.filter(work => work.customerId === customer.id).length;
+        return `<div class="customer-card">
+          <strong>${esc(customer.name)}</strong>
+          <div class="meta">${esc(customer.contact || "未留联系方式")} · ${count} 件作品</div>
+          ${customer.note ? `<div class="meta">${esc(customer.note)}</div>` : ""}
+        </div>`;
+      }).join("");
+    }
+
+    function filteredWorks() {
+      return state.works
+        .filter(work => !statusFilter.value || work.status === statusFilter.value)
+        .filter(work => !customerFilter.value || work.customerId === customerFilter.value)
+        .filter(work => !themeFilter.value || work.theme.includes(themeFilter.value.trim()))
         .sort((a, b) => (a[sortMode.value] || "").localeCompare(b[sortMode.value] || ""));
     }
 
-    function updateStatus(id, status) {
-      const work = works.find(w => w.id === id);
-      work.status = status;
-      if (status === "待阴干") work.dryDate = new Date().toISOString().slice(0, 10);
-      if (status === "上金粉") work.gold = "已上金粉";
-      if (status === "待交付") work.progress = 100;
-      work.logs.push(`${new Date().toLocaleString()} 更新为 ${status}`);
-      save();
-      render();
-    }
-
-    function recordDefect(id, text) {
-      const work = works.find(w => w.id === id);
-      const value = text || prompt("输入断线/翘线位置");
-      if (!value) return;
-      work.defect = work.defect ? `${work.defect}; ${value}` : value;
-      work.logs.push(`${new Date().toLocaleString()} 缺陷：${value}`);
-      save();
-      render();
-    }
-
-    function showDetail(id) {
-      activeId = id;
-      const w = works.find(item => item.id === id);
-      document.querySelector("#detailTitle").textContent = `${w.theme} · ${w.base}`;
-      document.querySelector("#detailContent").innerHTML = `
-        胎体材质：${w.base}<br>线条粗细：${w.line}<br>贴线进度：${w.progress}%<br>
-        阴干日期：${w.dryDate}<br>金粉状态：${w.gold}<br>缺陷位置：${w.defect || "无"}<br>
-        交付日期：${w.delivery}<br>当前状态：${w.status}<br>备注：${w.note || "无"}<br>
-        流转记录：${w.logs.join(" / ")}
-      `;
-      document.querySelector("#defectInput").value = "";
-      dialog.showModal();
-    }
-
     function renderSummaries() {
-      const todayDry = works.filter(w => w.dryDate <= today && w.status === "待阴干");
-      const defects = works.filter(w => w.defect);
-      const delivery = [...works].sort((a, b) => a.delivery.localeCompare(b.delivery)).slice(0, 4);
-      document.querySelector("#todayDry").innerHTML = todayDry.length ? todayDry.map(w => `<div class="item" onclick="showDetail('${w.id}')"><b>${w.theme}</b><div class="meta">${w.base} · ${w.dryDate}</div></div>`).join("") : `<div class="empty">暂无</div>`;
-      document.querySelector("#defectList").innerHTML = defects.length ? defects.map(w => `<div class="item overdue" onclick="showDetail('${w.id}')"><b>${w.theme}</b><div class="meta">${w.defect}</div></div>`).join("") : `<div class="empty">暂无</div>`;
-      document.querySelector("#deliveryList").innerHTML = delivery.map(w => `<div class="item" onclick="showDetail('${w.id}')"><b>${w.theme}</b><div class="meta">${w.delivery} · ${w.status}</div></div>`).join("");
+      const todayDry = state.works.filter(work => work.dryDate <= TODAY && work.status === "待阴干");
+      const defects = state.works.filter(work => work.defect);
+      const delivery = [...state.works].sort((a, b) => a.delivery.localeCompare(b.delivery)).slice(0, 4);
+      const workCard = work => `<div class="item ${work.defect ? "overdue" : ""}" data-work-id="${work.id}">
+        <b>${esc(work.theme)}</b>
+        <div class="meta">${esc(customerName(work.customerId))} · ${esc(work.base)} · ${esc(work.dryDate)}</div>
+      </div>`;
+
+      $("#todayDry").innerHTML = todayDry.length ? todayDry.map(workCard).join("") : `<div class="empty">暂无</div>`;
+      $("#defectList").innerHTML = defects.length
+        ? defects.map(work => `<div class="item overdue" data-work-id="${work.id}"><b>${esc(work.theme)}</b><div class="meta">${esc(work.defect)}</div></div>`).join("")
+        : `<div class="empty">暂无</div>`;
+      $("#deliveryList").innerHTML = delivery.length
+        ? delivery.map(work => `<div class="item" data-work-id="${work.id}"><b>${esc(work.theme)}</b><div class="meta">${esc(work.delivery)} · ${esc(work.status)}</div></div>`).join("")
+        : `<div class="empty">暂无</div>`;
     }
 
     function renderBoard() {
-      const list = filtered();
-      board.innerHTML = statuses.map(status => {
-        const cards = list.filter(w => w.status === status);
+      const list = filteredWorks();
+      board.innerHTML = WORK_STATUSES.map(status => {
+        const cards = list.filter(work => work.status === status);
         return `<section class="col">
           <h3><span>${status}</span><span>${cards.length}</span></h3>
-          ${cards.length ? cards.map(w => `<article class="item ${w.defect ? "overdue" : ""}" onclick="showDetail('${w.id}')">
-            <b>${w.theme}</b>
-            <div class="meta">${w.base} · ${w.line}<br>进度 ${w.progress}% · 阴干 ${w.dryDate}<br>金粉：${w.gold} · 交付：${w.delivery}<br>${w.defect ? "缺陷：" + w.defect : "缺陷：无"}</div>
-            <div class="actions" onclick="event.stopPropagation()">
-              ${statuses.map(s => `<button class="${s === status ? "secondary" : ""}" onclick="updateStatus('${w.id}', '${s}')">${s}</button>`).join("")}
-              <button class="warn" onclick="recordDefect('${w.id}')">记缺陷</button>
-            </div>
-          </article>`).join("") : `<div class="empty">暂无作品</div>`}
+          ${cards.length ? cards.map(work => {
+            const holder = activeHolder(work.id, state.batches);
+            const locked = holder?.status === BATCH_DONE;
+            return `<article class="item ${work.defect ? "overdue" : ""} ${holder ? (locked ? "locked" : "in-batch") : ""}" data-work-id="${work.id}">
+              <div>
+                <b>${esc(work.theme)}</b>
+                ${holder ? `<span class="badge ${holder.status === BATCH_DONE ? "done" : "active"}">${holder.status} ${esc(holder.code)}</span>` : ""}
+              </div>
+              <div class="meta">
+                ${esc(customerName(work.customerId))} · ${esc(work.base)} · ${esc(work.line)}<br>
+                进度 ${work.progress}% · 阴干 ${esc(work.dryDate)}<br>
+                金粉：${esc(work.gold)} · 交付：${esc(work.delivery)}<br>
+                ${work.defect ? "缺陷：" + esc(work.defect) : "缺陷：无"}
+              </div>
+              ${locked ? "" : `<div class="actions">
+                ${PRODUCTION_STATUSES.map(item => `<button class="small ${item === status ? "secondary" : ""}" data-action="status" data-status="${item}">${item}</button>`).join("")}
+                <button class="small warn" data-action="defect">记缺陷</button>
+              </div>`}
+            </article>`;
+          }).join("") : `<div class="empty">暂无作品</div>`}
         </section>`;
       }).join("");
     }
 
-    function render() {
-      renderSummaries();
-      renderBoard();
+    function recalculateRoster() {
+      const customerId = batchForm.customerId.value;
+      const handoverDate = batchForm.handoverDate.value;
+      selectedWorkIds = new Set();
+      if (!customerId || !handoverDate) return;
+      Rules.matchingWorks(customerId, handoverDate).forEach(work => {
+        if (!Rules.workBlockers(work, state.batches).length) selectedWorkIds.add(work.id);
+      });
     }
 
-    form.addEventListener("submit", event => {
+    function renderRoster() {
+      const customerId = batchForm.customerId.value;
+      const handoverDate = batchForm.handoverDate.value;
+      if (!customerId || !handoverDate) {
+        rosterEl.innerHTML = `<div class="empty">请先选择客户和交接日期。</div>`;
+        rosterSummary.textContent = "";
+        return;
+      }
+
+      const matching = Rules.matchingWorks(customerId, handoverDate);
+      const laterCount = Rules.laterWorks(customerId, handoverDate).length;
+      if (!matching.length) {
+        rosterEl.innerHTML = `<div class="empty">该客户没有交付日期不晚于 ${esc(handoverDate)} 的作品。</div>`;
+      } else {
+        rosterEl.innerHTML = matching.map(work => {
+          const holder = activeHolder(work.id, state.batches);
+          if (holder) {
+            return `<div class="check-card held">
+              <input type="checkbox" disabled>
+              <div>
+                <b>${esc(work.theme)}</b>
+                <div class="meta">${esc(work.base)} · 交付 ${esc(work.delivery)} · 当前 ${esc(work.status)}</div>
+                <div class="reasons">占用批次：${esc(batchLabel(holder))}（${holder.status}）</div>
+              </div>
+            </div>`;
+          }
+          const blockers = Rules.workBlockers(work, state.batches);
+          const checked = selectedWorkIds.has(work.id) ? "checked" : "";
+          return `<label class="check-card ${blockers.length ? "blocked" : ""}">
+            <input type="checkbox" value="${work.id}" ${blockers.length ? "disabled" : checked}>
+            <div>
+              <b>${esc(work.theme)}</b>
+              <div class="meta">${esc(work.base)} · 交付 ${esc(work.delivery)} · 阴干 ${esc(work.dryDate)} · 当前 ${esc(work.status)}</div>
+              <div class="meta">${work.defect ? "缺陷：" + esc(work.defect) : "缺陷：无"}</div>
+              ${blockers.length ? `<div class="reasons">卡点：${blockers.map(esc).join("；")}</div>` : ""}
+            </div>
+          </label>`;
+        }).join("");
+      }
+
+      rosterSummary.textContent = `已选 ${selectedWorkIds.size} 件可装匣作品。${laterCount ? `另有 ${laterCount} 件交付日期晚于交接日期，未纳入本批。` : ""}`;
+    }
+
+    function renderBatches() {
+      const statusValue = $("#batchStatusFilter").value;
+      const customerValue = $("#batchCustomerFilter").value;
+      const batches = state.batches
+        .filter(batch => !statusValue || batch.status === statusValue)
+        .filter(batch => !customerValue || batch.customerId === customerValue)
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      const list = $("#batchList");
+
+      if (!batches.length) {
+        list.innerHTML = `<div class="empty">暂无批次。</div>`;
+        return;
+      }
+
+      list.innerHTML = batches.map(batch => {
+        const works = batch.workIds.map(id => getWork(id));
+        const themes = works.map(work => work ? work.theme : "已删除作品").join("、");
+        const blockers = batch.status === BATCH_ACTIVE ? Rules.batchBlockers(batch, state) : [];
+        const badgeClass = batch.status === BATCH_ACTIVE ? "active" : batch.status === BATCH_DONE ? "done" : "returned";
+        return `<article class="batch-row ${batch.status === BATCH_DONE ? "done" : batch.status === BATCH_RETURNED ? "returned" : ""}" data-batch-id="${batch.id}">
+          <div class="batch-head">
+            <strong>${esc(batch.code)}</strong>
+            <span class="badge ${badgeClass}">${batch.status}</span>
+          </div>
+          <div class="meta">
+            ${esc(customerName(batch.customerId))} · 交接 ${esc(batch.handoverDate)} · ${works.length} 件<br>
+            ${esc(themes)}
+          </div>
+          ${blockers.length ? `<div class="reasons">卡点：${blockers.map(item => item.work ? `《${esc(item.work.theme)}》${esc(item.reason)}` : esc(item.reason)).join("；")}</div>` : ""}
+          <div class="actions">
+            <button class="small secondary" data-action="detail">详情</button>
+            ${batch.status === BATCH_ACTIVE ? `<button class="small violet" data-action="handover" ${blockers.length ? "disabled" : ""}>办理交接</button>` : ""}
+            ${batch.status === BATCH_DONE ? `<button class="small warn" data-action="return">退回放行</button>` : ""}
+          </div>
+        </article>`;
+      }).join("");
+    }
+
+    function openWorkDetail(id) {
+      activeWorkId = id;
+      renderWorkDetail();
+      detailDialog.showModal();
+    }
+
+    function renderWorkDetail() {
+      if (!activeWorkId || !detailDialog.open) return;
+      const work = getWork(activeWorkId);
+      if (!work) {
+        detailDialog.close();
+        return;
+      }
+      const holder = activeHolder(work.id, state.batches);
+      const relatedBatches = state.batches.filter(batch => batch.workIds.includes(work.id));
+      const locked = holder?.status === BATCH_DONE;
+      $("#detailTitle").textContent = `${work.theme} · ${work.base}`;
+      $("#detailContent").innerHTML = `
+        <div class="detail-list">
+          <div class="row"><span>客户</span><b>${esc(customerName(work.customerId))}</b></div>
+          <div class="row"><span>胎体/线条</span><b>${esc(work.base)} / ${esc(work.line)}</b></div>
+          <div class="row"><span>进度/金粉</span><b>${work.progress}% / ${esc(work.gold)}</b></div>
+          <div class="row"><span>阴干日期</span><b>${esc(work.dryDate)}</b></div>
+          <div class="row"><span>交付日期</span><b>${esc(work.delivery)}</b></div>
+          <div class="row"><span>当前状态</span><b>${esc(work.status)}</b></div>
+          <div class="row"><span>缺陷位置</span><b>${esc(work.defect || "无")}</b></div>
+          <div class="row"><span>备注</span><b>${esc(work.note || "无")}</b></div>
+          <div class="row"><span>批次记录</span><b>${relatedBatches.length ? relatedBatches.map(batch => `${esc(batch.code)}（${batch.status}）`).join("、") : "无"}</b></div>
+          ${locked ? `<div class="row"><span>锁定说明</span><b class="reasons">已随 ${esc(batchLabel(holder))} 交接锁定；退回后才可编辑。</b></div>` : ""}
+          <div class="row"><span>流转记录</span><b>${work.logs.map(item => `<div>${esc(item)}</div>`).join("")}</b></div>
+        </div>`;
+      $("#defectInput").value = "";
+      $("#defectInput").disabled = locked;
+      $("#saveDefect").disabled = locked;
+    }
+
+    function openBatchDetail(id) {
+      activeBatchId = id;
+      renderBatchDetail();
+      batchDialog.showModal();
+    }
+
+    function renderBatchDetail() {
+      if (!activeBatchId || !batchDialog.open) return;
+      const batch = state.batches.find(item => item.id === activeBatchId);
+      if (!batch) {
+        batchDialog.close();
+        return;
+      }
+      const customer = getCustomer(batch.customerId);
+      const blockers = batch.status === BATCH_ACTIVE ? Rules.batchBlockers(batch, state) : [];
+      $("#batchDetailTitle").textContent = `${batch.code} · ${batch.status}`;
+      $("#batchDetailContent").innerHTML = `
+        <div class="detail-list">
+          <div class="row"><span>客户</span><b>${esc(customer?.name || "未建档客户")} / ${esc(customer?.contact || "无联系方式")}</b></div>
+          <div class="row"><span>交接日期</span><b>${esc(batch.handoverDate)}</b></div>
+          <div class="row"><span>建立时间</span><b>${esc(batch.createdAt)}</b></div>
+          <div class="row"><span>交接时间</span><b>${esc(batch.handedOverAt || "未交接")}</b></div>
+          <div class="row"><span>退回时间</span><b>${esc(batch.returnedAt || "未退回")}</b></div>
+        </div>
+        <h3>作品名单</h3>
+        ${batch.workIds.map(id => {
+          const work = getWork(id);
+          if (!work) return `<div class="reasons">作品档案不存在：${esc(id)}</div>`;
+          return `<div class="record ${work.defect ? "overdue" : ""}" data-work-id="${work.id}">
+            <b>${esc(work.theme)}</b>
+            <div class="meta">${esc(work.base)} · ${esc(work.status)} · 阴干 ${esc(work.dryDate)} · 缺陷 ${esc(work.defect || "无")}</div>
+          </div>`;
+        }).join("")}
+        ${blockers.length ? `<h3>交接卡点</h3><div class="reasons">${blockers.map(item => item.work ? `《${esc(item.work.theme)}》${esc(item.reason)}` : esc(item.reason)).join("<br>")}</div>` : ""}
+        <h3>批次历史</h3>
+        <ul class="timeline">${batch.history.map(item => `<li>${esc(item)}</li>`).join("")}</ul>`;
+
+      const action = $("#batchDialogAction");
+      if (batch.status === BATCH_ACTIVE) {
+        action.textContent = "办理交接";
+        action.className = "violet";
+        action.disabled = blockers.length > 0;
+        action.hidden = false;
+      } else if (batch.status === BATCH_DONE) {
+        action.textContent = "退回放行";
+        action.className = "warn";
+        action.disabled = false;
+        action.hidden = false;
+      } else {
+        action.hidden = true;
+      }
+    }
+
+    function renderAll(options = {}) {
+      state = Store.load();
+      syncSelects();
+      renderCustomers();
+      renderSummaries();
+      renderBoard();
+      renderBatches();
+      if (options.recalculateRoster) recalculateRoster();
+      renderRoster();
+      renderWorkDetail();
+      renderBatchDetail();
+    }
+
+    function handleBatchAction(batchId, action) {
+      if (action === "detail") {
+        openBatchDetail(batchId);
+        return;
+      }
+      if (action === "handover") {
+        if (!confirm("确认该批次已实物交接？交接后作品和历史将锁定。")) return;
+        const result = BatchService.handover(batchId);
+        if (!result.ok) return alert(result.message.replace(/<br>/g, "\n"));
+      }
+      if (action === "return") {
+        if (!confirm("确认退回？只会解除占用并放回待交付，原批次会继续保留。")) return;
+        const result = BatchService.returnBatch(batchId);
+        if (!result.ok) return alert(result.message.replace(/<br>/g, "\n"));
+      }
+      renderAll({ recalculateRoster: true });
+    }
+
+    customerForm.addEventListener("submit", event => {
       event.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
-      works.unshift({
-        id: crypto.randomUUID(),
-        base: data.base,
-        theme: data.theme,
-        line: data.line,
-        progress: Number(data.progress),
-        dryDate: data.dryDate,
-        gold: data.gold,
-        defect: data.defect,
-        delivery: data.delivery,
-        status: data.status,
-        note: data.note,
-        logs: [`${new Date().toLocaleString()} 创建作品`]
-      });
-      form.reset();
-      form.dryDate.value = today;
-      form.delivery.value = new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10);
-      save();
-      render();
+      const data = Object.fromEntries(new FormData(customerForm).entries());
+      if (!data.name.trim()) return;
+      const fresh = Store.load();
+      if (fresh.customers.some(customer => customer.name === data.name.trim())) {
+        alert("已有同名客户，请修改名称。");
+        return;
+      }
+      const customer = normalizeCustomer({ id: uid(), ...data, name: data.name.trim(), createdAt: nowText() });
+      fresh.customers.push(customer);
+      Store.save(fresh);
+      customerForm.reset();
+      renderAll();
+      workForm.customerId.value = customer.id;
+      batchForm.customerId.value = customer.id;
+      recalculateRoster();
+      renderRoster();
     });
 
-    document.querySelector("#saveDefect").addEventListener("click", () => {
-      recordDefect(activeId, document.querySelector("#defectInput").value.trim());
-      showDetail(activeId);
+    workForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(workForm).entries());
+      const result = WorkService.create(data);
+      if (!result.ok) {
+        alert(result.message);
+        return;
+      }
+      workForm.reset();
+      workForm.dryDate.value = TODAY;
+      workForm.delivery.value = dateOffset(5);
+      syncSelects();
+      renderAll({ recalculateRoster: true });
     });
-    document.querySelector("#closeDialog").addEventListener("click", () => dialog.close());
-    document.querySelector("#clearFilters").addEventListener("click", () => {
+
+    batchForm.customerId.addEventListener("input", () => {
+      showBatchMessage();
+      recalculateRoster();
+      renderRoster();
+    });
+    batchForm.handoverDate.addEventListener("input", () => {
+      showBatchMessage();
+      recalculateRoster();
+      renderRoster();
+    });
+    rosterEl.addEventListener("change", event => {
+      const checkbox = event.target.closest('input[type="checkbox"]');
+      if (!checkbox) return;
+      if (checkbox.checked) selectedWorkIds.add(checkbox.value);
+      else selectedWorkIds.delete(checkbox.value);
+      rosterSummary.textContent = rosterSummary.textContent.replace(/^已选 \d+ 件/, `已选 ${selectedWorkIds.size} 件`);
+    });
+
+    batchForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const workIds = [...rosterEl.querySelectorAll('input[type="checkbox"]:checked')].map(input => input.value);
+      const result = BatchService.create({
+        customerId: batchForm.customerId.value,
+        handoverDate: batchForm.handoverDate.value,
+        workIds
+      });
+      if (!result.ok) {
+        showBatchMessage(result.message, "error");
+        renderAll({ recalculateRoster: true });
+        return;
+      }
+      renderAll({ recalculateRoster: true });
+      showBatchMessage(`批次 ${result.batch.code} 已建立，所选作品已被唯一占用。`, "ok");
+    });
+
+    board.addEventListener("click", event => {
+      const card = event.target.closest(".item");
+      if (!card) return;
+      const button = event.target.closest("button[data-action]");
+      if (button) {
+        const id = card.dataset.workId;
+        const result = button.dataset.action === "status"
+          ? WorkService.updateStatus(id, button.dataset.status)
+          : WorkService.recordDefect(id, prompt("输入断线/翘线位置") || "");
+        if (!result.ok) alert(result.message);
+        renderAll();
+        return;
+      }
+      openWorkDetail(card.dataset.workId);
+    });
+
+    ["todayDry", "defectList", "deliveryList"].forEach(id => {
+      $("#" + id).addEventListener("click", event => {
+        const card = event.target.closest(".item");
+        if (card) openWorkDetail(card.dataset.workId);
+      });
+    });
+
+    $("#batchList").addEventListener("click", event => {
+      const row = event.target.closest("[data-batch-id]");
+      if (!row) return;
+      const button = event.target.closest("button[data-action]");
+      handleBatchAction(row.dataset.batchId, button ? button.dataset.action : "detail");
+    });
+
+    $("#batchDialogAction").addEventListener("click", () => {
+      const batch = state.batches.find(item => item.id === activeBatchId);
+      if (batch) handleBatchAction(batch.id, batch.status === BATCH_ACTIVE ? "handover" : "return");
+    });
+
+    $("#batchDetailContent").addEventListener("click", event => {
+      const card = event.target.closest("[data-work-id]");
+      if (card) {
+        batchDialog.close();
+        openWorkDetail(card.dataset.workId);
+      }
+    });
+
+    $("#saveDefect").addEventListener("click", () => {
+      const result = WorkService.recordDefect(activeWorkId, $("#defectInput").value);
+      if (!result.ok) alert(result.message);
+      renderAll();
+    });
+    $("#closeDialog").addEventListener("click", () => detailDialog.close());
+    $("#closeBatchDialog").addEventListener("click", () => batchDialog.close());
+
+    $("#clearFilters").addEventListener("click", () => {
       themeFilter.value = "";
+      customerFilter.value = "";
       statusFilter.value = "";
-      render();
+      renderBoard();
     });
-    [statusFilter, themeFilter, sortMode].forEach(el => el.addEventListener("input", render));
-    document.querySelector("#exportBtn").addEventListener("click", () => {
-      const blob = new Blob([JSON.stringify(works, null, 2)], { type: "application/json" });
+    $("#clearBatchFilters").addEventListener("click", () => {
+      $("#batchStatusFilter").value = "";
+      $("#batchCustomerFilter").value = "";
+      renderBatches();
+    });
+    [statusFilter, customerFilter, sortMode].forEach(element => element.addEventListener("input", renderBoard));
+    themeFilter.addEventListener("input", renderBoard);
+    $("#batchStatusFilter").addEventListener("input", renderBatches);
+    $("#batchCustomerFilter").addEventListener("input", renderBatches);
+
+    $("#exportBtn").addEventListener("click", () => {
+      const data = Store.load();
+      state = data;
+      const payload = { ...data, exportedAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "lacquer-thread-works.json";
+      link.download = `lacquer-thread-workshop-${TODAY}.json`;
       link.click();
       URL.revokeObjectURL(link.href);
     });
 
-    window.updateStatus = updateStatus;
-    window.recordDefect = recordDefect;
-    window.showDetail = showDetail;
-    save();
-    render();
+    window.addEventListener("storage", event => {
+      if (![STORAGE_KEY, OLD_STORAGE_KEY].includes(event.key)) return;
+      renderAll({ recalculateRoster: true });
+      showBatchMessage("另一个窗口已更新装匣数据，名单已按最新批次占用情况重算。", "info");
+    });
+
+    syncSelects();
+    if (!batchForm.customerId.value && state.customers[0]) batchForm.customerId.value = state.customers[0].id;
+    recalculateRoster();
+    renderAll();
   </script>
 </body>
 </html>
